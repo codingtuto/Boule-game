@@ -1,0 +1,15 @@
+{
+  "background_color": "black",
+  "description": "Jouer à un jeu simple.",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icon/game.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "name": "Boule game",
+  "short_name": "Boule game",
+  "start_url": "/index.html"
+}
