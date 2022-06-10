@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Boule game - Coding Team</title> 
+  <script src="pwa.js" defer></script>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/x-icon" href="/icon/game.png">
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <meta name="revised" content="10/06/2022" />
+  <meta name="author" content="Aliou Sow" />
+  <meta name="keywords" content="jeu en ligne, jeu de réflexion, divertissement, casse tete, divertisssant, coding team" />
+  <meta name="description" content="Un jeu en ligne de réflexion super divertissant et aussi éducatif " />
+  <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+                background-color: #333; 
+            }
+            #time {
+                width: 100%;
+                height: 3px;
+                background-color: rgb(30,120,190);
+                position: fixed;
+                bottom: 0px;
+
+            }
+            #tab {
+                height: 75px;
+                width: 100%;
+
+                background-color: rgba(0,0,0,0);
+                color: dodgerblue;
+                font-size: 14pt;
+                font-weight: bolder;
+                font-family: consolas;
+                overflow: hidden;
+                text-shadow: 0px 0px 3px rgb(70,130,230);
+            }
+            #bait {
+                height: 75px;
+                width: 75px;
+                position: fixed;
+                left: calc(50% - 25px);
+                top: calc(50% - 25px);
+                background-color: rgb(20,120,40);
+                box-shadow: 0em 0em 2em rgb(50,150,70);
+                border-radius: 75px;
+            }
+            #level {
+                position: fixed;
+                right: 10px;
+                top: 10px;
+                height: 25px;
+                width: 150px;
+                border: none;
+                border-left: 3px solid;
+                border-color: dodgerblue;
+                background-color: rgb(80,80,80);
+                color: #f9f9f9;
+                outline: none;
+            }
+            #score {
+                position: fixed;
+                left: 10px;
+                top: 10px;
+            }
+        </style> 
+  <script>
+            window.onload = function Begin(e,speed = 1000) {
+                alert(`Consignes : 
+    1) Quand tu clique le bouton vert tu gagne 1 point
+    2) Quand tu clique le bouton rouge tu perd 2 points
+    3) Jouez le partie jusqu'à que le button vert s'arrête `);
+                let color = 'rgb(20,120,40)',scolor = 'rgb(50,150,70)';
+                let score = 0,time = window.innerWidth;
+                let st = document.querySelector('#status');
+                let bait = document.querySelector('#bait');
+                bait.style.transition = 'all '+speed/1000+'s';
+                document.querySelector('#score').innerHTML = 'Score : 0';
+                
+                bait.onclick = () => {
+                    if(color === 'rgb(20,120,40)') score += 1;
+                    else score -= 2;
+                    if(time > 0) document.querySelector('#score').innerHTML = 'Score : '+score;
+                };
+                let inV = setInterval(function() {
+                    let pX = Math.ceil(Math.random()*Math.floor(window.innerWidth-75));
+                    let pY = 150 + Math.ceil(Math.random()*Math.floor(window.innerHeight-225));
+                    if(time <= 0) clearInterval(inV);
+                    bait.style.left = pX+'px';
+                    bait.style.top = pY+'px';
+                    let num = Math.floor(Math.random()*5);
+                    if(num === 2) {color = 'rgb(120,20,40)';scolor = 'rgb(150,50,70)';}
+                    else {color = 'rgb(20,120,40)';scolor = 'rgb(50,150,70)';}
+                    bait.style.backgroundColor = color;
+                    bait.style.boxShadow = '0em 0em 2em '+scolor;
+                    time -= Math.floor(window.innerWidth/100);
+                    document.querySelector('#time').style.width = time+'px';
+                },speed);
+                document.querySelector('#level').onchange = () => {
+                    clearInterval(inV);
+                    Begin(e,document.querySelector('#level').value);
+                };
+            };
+        </script> 
+ </head> 
+ <body> 
+  <div id="tab"> 
+   <span id="score">Score : 0</span> 
+   <select id="level"> <option value="1000">Élémentaire</option> <option value="750">Facile</option> <option value="500">Moyen</option> <option value="250">Difficile</option> <option value="125">Extreme</option> </select> 
+   <div id="time"></div> 
+  </div> 
+  <div id="bait"></div> 
+ </body>
+</html>
